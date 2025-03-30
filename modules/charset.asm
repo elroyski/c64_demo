@@ -68,46 +68,63 @@ modify_charset:
     bne !loop-
     
     // Modyfikuj litery 'A' do 'Z' - pochylenie dla efektu kursywy
-    ldx #0                  // Licznik znaków (A do Z)
-    stx x_index             // Zapisz wartość x do x_index
-!char_loop:
-    ldy #0                  // Licznik bajtów dla każdego znaku
-!byte_loop:
-    lda x_index             // Pobierz aktualny indeks znaku
+    lda #0
+    sta char_index            // Zainicjuj licznik znaków (A-Z)
+    
+char_loop:
+    lda #0
+    sta byte_index            // Zainicjuj licznik bajtów dla każdego znaku
+    
+byte_loop:
+    // Oblicz adres źródłowy dla znaku
+    lda char_index    
     clc
-    adc #65                 // Dodaj 65 (ASCII dla 'A')
-    tax                     // Przenieś do X jako indeks
-    lda CHARSET_LOCATION, x // Pobierz znak z zestawu
-    lsr                     // Przesuń w prawo
-    ldx x_index             // Przywróć x_index do X
+    adc #65                   // Dodaj 65 (ASCII dla 'A')
+    sta temp_char
+    
+    // Oblicz adres bajtów znaku w zestawie znaków
+    lda temp_char             // Znak ASCII ('A' + char_index)
+    asl                       // Mnożymy przez 8 (każdy znak ma 8 bajtów)
+    asl
+    asl
+    clc
+    adc byte_index            // Dodajemy aktualny bajt znaku
+    tax                       // Przenosimy do X jako indeks
+    
+    // Pobierz bajt z oryginalnego znaku
+    lda CHARSET_LOCATION, x
+    
+    // Zapisz wartość początkową
+    sta temp_byte
     
     // Przesuń w prawo lub w lewo w zależności od pozycji bajtu
-    cpy #0
-    beq no_shift            // Nie przesuwamy pierwszego bajtu
-    cpy #7
-    beq no_shift            // Nie przesuwamy ostatniego bajtu
+    lda byte_index
+    cmp #0
+    beq no_shift              // Nie przesuwamy pierwszego bajtu
+    cmp #7
+    beq no_shift              // Nie przesuwamy ostatniego bajtu
     
     // Przesunięcie o 1 bit w prawo (dla efektu pochylenia)
+    lda temp_byte
     lsr
+    sta temp_byte
     
 no_shift:
-    pha                     // Zapisz wartość A na stos
-    lda x_index             // Pobierz aktualny indeks znaku
-    clc
-    adc #65                 // Dodaj 65 (ASCII dla 'A')
-    tax                     // Przenieś do X jako indeks
-    pla                     // Przywróć wartość A ze stosu
-    sta CHARSET_LOCATION, x // Zapisz z powrotem do zestawu
-    ldx x_index             // Przywróć x_index do X
+    // Zapisz zmodyfikowany bajt z powrotem do zestawu znaków
+    lda temp_byte
+    sta CHARSET_LOCATION, x
     
-    iny
-    cpy #8
-    bne !byte_loop-
+    // Przejdź do następnego bajtu znaku
+    inc byte_index
+    lda byte_index
+    cmp #8
+    bne byte_loop
     
-    inx
-    stx x_index             // Aktualizuj zmienną x_index
-    cpx #26                 // 26 liter (A-Z)
-    bne !char_loop-
+    // Przejdź do następnego znaku
+    inc char_index
+    lda char_index
+    cmp #26                   // 26 liter (A-Z)
+    bne char_loop
     
     rts
 
@@ -130,4 +147,7 @@ animated_charset:
 .byte $41, $42, $43, $44, $45  // Przykładowe wypełnienie - kilka liter alfabetu
 
 // Zmienne pomocnicze
-x_index: .byte 0  // Zmienna pomocnicza zamiast x 
+char_index: .byte 0    // Indeks znaku (0-25 dla A-Z)
+byte_index: .byte 0    // Indeks bajtu w znaku (0-7)
+temp_char:  .byte 0    // Tymczasowa zmienna dla znaku
+temp_byte:  .byte 0    // Tymczasowa zmienna dla bajtu 

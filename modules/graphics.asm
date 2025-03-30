@@ -71,22 +71,28 @@ draw_border:
     
     // Lewa krawędź
     ldx #0
+    stx border_index         // Zapisz licznik do zmiennej pomocniczej
 !loop:
     lda #66                  // Znak 'B'
-    sta SCREEN + 40*x
+    ldy border_index
+    sta SCREEN + 40*y
     lda #1                   // Biały kolor
-    sta COLOR_RAM + 40*x
+    sta COLOR_RAM + 40*y
+    inc border_index
     inx
     cpx #24
     bne !loop-
     
     // Prawa krawędź
     ldx #0
+    stx border_index         // Zapisz licznik do zmiennej pomocniczej
 !loop:
     lda #66                  // Znak 'B'
-    sta SCREEN + 40*x + 39
+    ldy border_index
+    sta SCREEN + 40*y + 39
     lda #1                   // Biały kolor
-    sta COLOR_RAM + 40*x + 39
+    sta COLOR_RAM + 40*y + 39
+    inc border_index
     inx
     cpx #24
     bne !loop-
@@ -278,4 +284,5 @@ plasma_counter: .byte 0
 logo_screen_ptr: .word 0
 logo_color_ptr: .word 0
 logo_data_ptr: .word 0
-temp_row: .byte 0 
+temp_row: .byte 0
+border_index: .byte 0  // Indeks dla rysowania ramki 
