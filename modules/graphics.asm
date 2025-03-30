@@ -74,10 +74,25 @@ draw_border:
     stx border_index         // Zapisz licznik do zmiennej pomocniczej
 !loop:
     lda #66                  // Znak 'B'
-    ldy border_index
-    sta SCREEN + 40*y
+    
+    // Oblicz adres na podstawie border_index
+    lda border_index
+    asl                      // × 2
+    asl                      // × 4
+    asl                      // × 8
+    asl                      // × 16
+    asl                      // × 32
+    clc
+    adc border_index         // + border_index × 8 = border_index × 40
+    adc border_index         // + index = 40 × border_index
+    tax                      // Przenieś do X jako indeks
+    
+    lda #66                  // Znak 'B'
+    sta SCREEN, x            // Zapisz na ekranie
     lda #1                   // Biały kolor
-    sta COLOR_RAM + 40*y
+    sta COLOR_RAM, x         // Zapisz kolor
+    
+    ldx border_index         // Przywróć licznik
     inc border_index
     inx
     cpx #24
@@ -87,11 +102,26 @@ draw_border:
     ldx #0
     stx border_index         // Zapisz licznik do zmiennej pomocniczej
 !loop:
+    // Oblicz adres na podstawie border_index
+    lda border_index
+    asl                      // × 2
+    asl                      // × 4
+    asl                      // × 8
+    asl                      // × 16
+    asl                      // × 32
+    clc
+    adc border_index         // + border_index × 8 = border_index × 40
+    adc border_index         // + index = 40 × border_index
+    clc
+    adc #39                  // Dodaj 39 do adresu (ostatnia kolumna)
+    tax                      // Przenieś do X jako indeks
+    
     lda #66                  // Znak 'B'
-    ldy border_index
-    sta SCREEN + 40*y + 39
+    sta SCREEN, x            // Zapisz na ekranie
     lda #1                   // Biały kolor
-    sta COLOR_RAM + 40*y + 39
+    sta COLOR_RAM, x         // Zapisz kolor
+    
+    ldx border_index         // Przywróć licznik
     inc border_index
     inx
     cpx #24
