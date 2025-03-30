@@ -20,6 +20,7 @@
 .const IRQ_CONTROL = $d01a
 .const IRQ_STATUS = $d019
 .const SPRITE_POINTERS = SCREEN + $3f8
+.const CHARSET_LOCATION = $2000  // Adres zestawu znaków
 
 //----------------------------------------------------------
 // Podstawowe zmienne

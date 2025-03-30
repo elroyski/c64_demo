@@ -2,9 +2,6 @@
 // Moduł obsługi zestawu znaków (charset)
 //----------------------------------------------------------
 
-// Adres zestawu znaków (po $2000 żeby uniknąć kolizji z innymi danymi)
-.const CHARSET_LOCATION = $2000
-
 // Inicjalizacja zestawu znaków
 init_charset:
     // Wyłączenie przerwań podczas kopiowania zestawu znaków
