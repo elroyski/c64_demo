@@ -304,10 +304,6 @@ plasma_colors:
 .byte 9,9,9,9,2,2,2,2,8,8,8,8,7,7,7,7,1,1,1,1,7,7,7,7,8,8,8,8,2,2,2,2
 .byte 9,9,9,9,2,2,2,2,8,8,8,8,7,7,7,7,1,1,1,1,7,7,7,7,8,8,8,8,2,2,2,2
 
-// Segment danych graficznych
-.segment GFXData "Graphics Data"
-// Tutaj możemy umieścić dodatkowe dane graficzne, bitmapę logo, itp.
-
 // Zmienne graficzne
 raster_bar_pos: .byte 0
 plasma_counter: .byte 0

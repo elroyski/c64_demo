@@ -174,7 +174,6 @@ cosine_table:
 .byte 63, 60, 57, 54, 52, 50, 50, 50, 50, 50, 50, 50, 50, 50, 52
 
 // Definicje sprite'ów (12 sprite'ów, 4 zestawy animacji po 3 sprite'y)
-.segment Sprites "Sprite Data"
 sprite_data:
 
 // Pierwszy sprite (logo) - 4 klatki animacji

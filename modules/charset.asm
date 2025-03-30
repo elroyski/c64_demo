@@ -137,7 +137,6 @@ custom_char_data:
 .byte %00111100    // ****
 
 // Dane animowanego zestawu znaków używanego do efektów
-.segment Charset "Charset Data"
 animated_charset:
 // Tutaj umieszczamy dane dla animowanych znaków
 // Dla każdego znaku 8 bajtów pomnożone przez ilość klatek animacji

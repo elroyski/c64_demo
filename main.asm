@@ -150,6 +150,12 @@ play_music:
 //----------------------------------------------------------
 // Segment danych graficznych, zestawu znaków i sprite'ów
 //----------------------------------------------------------
-.segment GFXData []
-.segment Charset []
-.segment Sprites [] 
+.segment GFXData "Graphics Data"
+// Tutaj możemy umieścić dodatkowe dane graficzne
+
+.segment Charset "Charset Data"
+// Dane zestawu znaków animowanych
+.byte $00, $01, $02, $03, $04  // Placeholder
+
+.segment Sprites "Sprite Data"
+// Dane sprite'ów będą automatycznie dołączone z modułu sprites.asm 
