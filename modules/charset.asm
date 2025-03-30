@@ -1,6 +1,7 @@
 //----------------------------------------------------------
 // Moduł obsługi zestawu znaków (charset)
 //----------------------------------------------------------
+.importonce // Zapewnia, że plik będzie zaimportowany tylko raz
 
 // Inicjalizacja zestawu znaków
 init_charset:

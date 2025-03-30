@@ -1,6 +1,7 @@
 //----------------------------------------------------------
 // Moduł zarządzania sprite'ami
 //----------------------------------------------------------
+.importonce // Zapewnia, że plik będzie zaimportowany tylko raz
 
 // Inicjalizacja sprite'ów
 init_sprites:

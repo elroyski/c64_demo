@@ -2,6 +2,13 @@
 // Intro Commodore 64 - Zrobione w Kick Assembler 5.25
 //----------------------------------------------------------
 
+// Definiujemy segmenty przed ich użyciem
+.segmentdef Code [start=$0810]
+.segmentdef Music [start=$1000] 
+.segmentdef GFXData
+.segmentdef Charset
+.segmentdef Sprites
+
 .file [name="intro.prg", segments="Code, Music, GFXData, Charset, Sprites"]
 .disk [filename="intro.d64", name="C64 INTRO", id="2023" ]
 {
@@ -32,7 +39,7 @@
 //----------------------------------------------------------
 // Główny segment kodu
 //----------------------------------------------------------
-.segment Code []
+.segment Code
 
 // Ustawienie adresu startowego na $0801 (standard dla C64)
 *=$0801 "Basic Upstart"
@@ -142,20 +149,21 @@ play_music:
 //----------------------------------------------------------
 // Segment muzyki (placeholder)
 //----------------------------------------------------------
-.segment Music []
+.segment Music
 *=MUSIC_LOCATION "Music"
 // Placeholder dla danych muzyki
 .byte $00, $01, $02, $03, $04, $05
 
 //----------------------------------------------------------
-// Segment danych graficznych, zestawu znaków i sprite'ów
+// Segmenty danych graficznych, zestawu znaków i sprite'ów
 //----------------------------------------------------------
-.segment GFXData "Graphics Data"
+.segment GFXData
 // Tutaj możemy umieścić dodatkowe dane graficzne
+.byte $00, $01, $02  // Placeholder
 
-.segment Charset "Charset Data"
+.segment Charset
 // Dane zestawu znaków animowanych
 .byte $00, $01, $02, $03, $04  // Placeholder
 
-.segment Sprites "Sprite Data"
+.segment Sprites
 // Dane sprite'ów będą automatycznie dołączone z modułu sprites.asm 

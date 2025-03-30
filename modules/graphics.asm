@@ -1,6 +1,7 @@
 //----------------------------------------------------------
 // Moduł graficzny - efekty, animacje, logo
 //----------------------------------------------------------
+.importonce // Zapewnia, że plik będzie zaimportowany tylko raz
 
 // Stałe dla efektów graficznych
 .const LOGO_START_X = 10      // Pozycja startowa logo (kolumna)

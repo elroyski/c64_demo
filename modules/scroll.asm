@@ -1,6 +1,7 @@
 //----------------------------------------------------------
 // Moduł przewijania tekstu (scroll)
 //----------------------------------------------------------
+.importonce // Zapewnia, że plik będzie zaimportowany tylko raz
 
 // Inicjalizacja scrollera
 init_scroll:
