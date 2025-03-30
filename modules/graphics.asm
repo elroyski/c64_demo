@@ -199,21 +199,26 @@ update_plasma:
     lda sine_table, x
     tax
     
-    // 10 wierszy plasmy na środku ekranu
-    .for(var row=8; row<18; row++) {
-        // Każdy wiersz ma swój własny offset koloru
-        lda plasma_colors, x
-        sta COLOR_RAM + row*40 + 3
-        inx
-        lda plasma_colors, x
-        sta COLOR_RAM + row*40 + 4
-        inx
-        lda plasma_colors, x
-        sta COLOR_RAM + row*40 + 5
-        inx
-        // ... i tak dalej dla 30 znaków w wierszu
-        // (skrócone dla przejrzystości)
-    }
+    // 10 wierszy plasmy na środku ekranu (8-17)
+    lda #8          // Początkowy wiersz
+    sta temp_row
+    
+plasma_row_loop:
+    // Każdy wiersz ma swój własny offset koloru
+    lda plasma_colors, x
+    sta COLOR_RAM + 3 + 40*[temp_row]
+    inx
+    lda plasma_colors, x
+    sta COLOR_RAM + 4 + 40*[temp_row]
+    inx
+    lda plasma_colors, x
+    sta COLOR_RAM + 5 + 40*[temp_row]
+    inx
+    // Zwiększymy wiersz
+    inc temp_row
+    lda temp_row
+    cmp #18         // Kończymy na wierszu 17
+    bne plasma_row_loop
     
     rts
 
@@ -257,4 +262,5 @@ raster_bar_pos: .byte 0
 plasma_counter: .byte 0
 logo_screen_ptr: .word 0
 logo_color_ptr: .word 0
-logo_data_ptr: .word 0 
+logo_data_ptr: .word 0
+temp_row: .byte 0 

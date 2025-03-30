@@ -24,7 +24,9 @@
 //----------------------------------------------------------
 // Podstawowe zmienne
 //----------------------------------------------------------
-.var music = LoadSid("music/music.sid")
+// Tymczasowo usuwamy LoadSid i tworzymy placeholder
+// .var music = LoadSid("music/music.sid")
+.const MUSIC_LOCATION = $1000  // Adres w pamięci dla muzyki
 
 //----------------------------------------------------------
 // Główny segment kodu
@@ -47,11 +49,8 @@ start:
     sta BACKGROUND_COLOR
     sta BORDER_COLOR
     
-    // Inicjalizacja muzyki
-    ldx #0          // Utwór numer 0
-    ldy #0          // Nie używamy specjalnego adresu
-    lda #music.startSong-1
-    jsr music.init
+    // Inicjalizacja muzyki (placeholder)
+    jsr init_music
     
     // Inicjalizacja poszczególnych modułów
     jsr init_charset    // Inicjalizacja zestawu znaków
@@ -110,7 +109,7 @@ irq_scroll:
     jmp irq_end
     
 irq_music:
-    jsr music.play
+    jsr play_music
     lda #50
     sta RASTER_LINE
     
@@ -123,6 +122,16 @@ irq_end:
     pla
     rti
 
+// Placeholder dla inicjalizacji muzyki
+init_music:
+    rts
+
+// Placeholder dla odtwarzania muzyki
+play_music:
+    // Prosta zmiana koloru ramki dla efektu
+    inc BORDER_COLOR
+    rts
+
 // Dołączenie poszczególnych modułów
 #import "modules/charset.asm"
 #import "modules/sprites.asm"
@@ -130,11 +139,12 @@ irq_end:
 #import "modules/scroll.asm"
 
 //----------------------------------------------------------
-// Segment muzyki
+// Segment muzyki (placeholder)
 //----------------------------------------------------------
 .segment Music []
-*=music.location "Music"
-.fill music.size, music.getData(i)
+*=MUSIC_LOCATION "Music"
+// Placeholder dla danych muzyki
+.byte $00, $01, $02, $03, $04, $05
 
 //----------------------------------------------------------
 // Segment danych graficznych, zestawu znaków i sprite'ów

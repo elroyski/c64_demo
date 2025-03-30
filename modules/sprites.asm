@@ -131,13 +131,47 @@ no_sprite_update:
     
     rts
 
-// Tablica sinusa (64 wartości, zakres 24-104 dla X)
+// Tablica sinusa (256 wartości, zakres 24-104 dla X)
 sine_table:
-.fill 256, 64 + 40*sin(toRadians(i*360/256))
+// Ręczna implementacja zamiast .fill z funkcjami trygonometrycznymi
+.byte 64, 67, 71, 74, 77, 81, 84, 87, 90, 93, 96, 99, 101, 104
+.byte 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104, 104
+.byte 101, 99, 96, 93, 90, 87, 84, 81, 77, 74, 71, 67, 64, 61, 57
+.byte 54, 51, 47, 44, 41, 38, 35, 32, 29, 27, 24, 24, 24, 24, 24
+.byte 24, 24, 24, 24, 24, 24, 24, 24, 27, 29, 32, 35, 38, 41, 44
+.byte 47, 51, 54, 57, 61, 64, 67, 71, 74, 77, 81, 84, 87, 90, 93
+.byte 96, 99, 101, 104, 104, 104, 104, 104, 104, 104, 104, 104
+.byte 104, 104, 104, 104, 101, 99, 96, 93, 90, 87, 84, 81, 77, 74
+.byte 71, 67, 64, 61, 57, 54, 51, 47, 44, 41, 38, 35, 32, 29, 27
+.byte 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24, 27, 29
+.byte 32, 35, 38, 41, 44, 47, 51, 54, 57, 61, 64, 67, 71, 74, 77
+.byte 81, 84, 87, 90, 93, 96, 99, 101, 104, 104, 104, 104, 104
+.byte 104, 104, 104, 104, 104, 104, 104, 104, 101, 99, 96, 93, 90
+.byte 87, 84, 81, 77, 74, 71, 67, 64, 61, 57, 54, 51, 47, 44, 41
+.byte 38, 35, 32, 29, 27, 24, 24, 24, 24, 24, 24, 24, 24, 24, 24
+.byte 24, 24, 24, 27, 29, 32, 35, 38, 41, 44, 47, 51, 54, 57, 61
 
-// Tablica cosinusa (64 wartości, zakres 50-150 dla Y)
+// Tablica cosinusa (256 wartości, zakres 50-150 dla Y)
 cosine_table:
-.fill 256, 100 + 50*cos(toRadians(i*360/256))
+// Ręczna implementacja zamiast .fill z funkcjami trygonometrycznymi
+.byte 100, 103, 107, 110, 113, 117, 120, 123, 126, 129, 132, 135
+.byte 137, 140, 143, 146, 148, 150, 150, 150, 150, 150, 150, 150
+.byte 150, 150, 148, 146, 143, 140, 137, 135, 132, 129, 126, 123
+.byte 120, 117, 113, 110, 107, 103, 100, 97, 93, 90, 87, 83, 80
+.byte 77, 74, 71, 68, 65, 63, 60, 57, 54, 52, 50, 50, 50, 50, 50
+.byte 50, 50, 50, 50, 52, 54, 57, 60, 63, 65, 68, 71, 74, 77, 80
+.byte 83, 87, 90, 93, 97, 100, 103, 107, 110, 113, 117, 120, 123
+.byte 126, 129, 132, 135, 137, 140, 143, 146, 148, 150, 150, 150
+.byte 150, 150, 150, 150, 150, 150, 148, 146, 143, 140, 137, 135
+.byte 132, 129, 126, 123, 120, 117, 113, 110, 107, 103, 100, 97
+.byte 93, 90, 87, 83, 80, 77, 74, 71, 68, 65, 63, 60, 57, 54, 52
+.byte 50, 50, 50, 50, 50, 50, 50, 50, 50, 52, 54, 57, 60, 63, 65
+.byte 68, 71, 74, 77, 80, 83, 87, 90, 93, 97, 100, 103, 107, 110
+.byte 113, 117, 120, 123, 126, 129, 132, 135, 137, 140, 143, 146
+.byte 148, 150, 150, 150, 150, 150, 150, 150, 150, 150, 148, 146
+.byte 143, 140, 137, 135, 132, 129, 126, 123, 120, 117, 113, 110
+.byte 107, 103, 100, 97, 93, 90, 87, 83, 80, 77, 74, 71, 68, 65
+.byte 63, 60, 57, 54, 52, 50, 50, 50, 50, 50, 50, 50, 50, 50, 52
 
 // Definicje sprite'ów (12 sprite'ów, 4 zestawy animacji po 3 sprite'y)
 .segment Sprites "Sprite Data"
@@ -235,13 +269,23 @@ sprite_data:
 .byte %00000000,%00000000,%00000000
 .byte %00000000,%00000000,%00000000
 
-// Drugi sprite - 4 klatki animacji
-// (analogiczne definicje dla drugiego zestawu sprite'ów... skrócone dla zwięzłości)
-.fill 64*4, $aa   // Placeholder, będzie zastąpiony prawdziwymi danymi
+// Drugi sprite - 4 klatki animacji - placeholder
+.byte $aa,$aa,$aa, $aa,$aa,$aa, $aa,$aa,$aa
+.byte $aa,$aa,$aa, $aa,$aa,$aa, $aa,$aa,$aa
+.byte $aa,$aa,$aa, $aa,$aa,$aa, $aa,$aa,$aa
+.byte $aa,$aa,$aa, $aa,$aa,$aa, $aa,$aa,$aa
+.byte $aa,$aa,$aa, $aa,$aa,$aa, $aa,$aa,$aa
+.byte $aa,$aa,$aa, $aa,$aa,$aa, $aa,$aa,$aa
+.byte $aa,$aa,$aa, $aa,$aa,$aa, $aa,$aa,$aa
 
-// Trzeci sprite - 4 klatki animacji
-// (analogiczne definicje dla trzeciego zestawu sprite'ów... skrócone dla zwięzłości)
-.fill 64*4, $55   // Placeholder, będzie zastąpiony prawdziwymi danymi
+// Trzeci sprite - 4 klatki animacji - placeholder
+.byte $55,$55,$55, $55,$55,$55, $55,$55,$55
+.byte $55,$55,$55, $55,$55,$55, $55,$55,$55
+.byte $55,$55,$55, $55,$55,$55, $55,$55,$55
+.byte $55,$55,$55, $55,$55,$55, $55,$55,$55
+.byte $55,$55,$55, $55,$55,$55, $55,$55,$55
+.byte $55,$55,$55, $55,$55,$55, $55,$55,$55
+.byte $55,$55,$55, $55,$55,$55, $55,$55,$55
 
 // Zmienne dla sprite'ów
 sprite_anim_counter: .byte 0

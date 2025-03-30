@@ -112,4 +112,4 @@ custom_char_data:
 animated_charset:
 // Tutaj umieszczamy dane dla animowanych znaków
 // Dla każdego znaku 8 bajtów pomnożone przez ilość klatek animacji
-.fill 256*8, 65 + (i/8) % 26  // Przykładowe wypełnienie (alfabet A-Z) 
+.byte $41, $42, $43, $44, $45  // Przykładowe wypełnienie - kilka liter alfabetu 
