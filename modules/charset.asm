@@ -69,10 +69,17 @@ modify_charset:
     
     // Modyfikuj litery 'A' do 'Z' - pochylenie dla efektu kursywy
     ldx #0                  // Licznik znaków (A do Z)
+    stx x_index             // Zapisz wartość x do x_index
 !char_loop:
     ldy #0                  // Licznik bajtów dla każdego znaku
 !byte_loop:
-    lda CHARSET_LOCATION + (65+x)*8, y  // Pobierz bajt z oryginalnego znaku (65 = 'A')
+    lda x_index             // Pobierz aktualny indeks znaku
+    clc
+    adc #65                 // Dodaj 65 (ASCII dla 'A')
+    tax                     // Przenieś do X jako indeks
+    lda CHARSET_LOCATION, x // Pobierz znak z zestawu
+    lsr                     // Przesuń w prawo
+    ldx x_index             // Przywróć x_index do X
     
     // Przesuń w prawo lub w lewo w zależności od pozycji bajtu
     cpy #0
@@ -84,13 +91,21 @@ modify_charset:
     lsr
     
 no_shift:
-    sta CHARSET_LOCATION + (65+x)*8, y  // Zapisz zmodyfikowany bajt
+    pha                     // Zapisz wartość A na stos
+    lda x_index             // Pobierz aktualny indeks znaku
+    clc
+    adc #65                 // Dodaj 65 (ASCII dla 'A')
+    tax                     // Przenieś do X jako indeks
+    pla                     // Przywróć wartość A ze stosu
+    sta CHARSET_LOCATION, x // Zapisz z powrotem do zestawu
+    ldx x_index             // Przywróć x_index do X
     
     iny
     cpy #8
     bne !byte_loop-
     
     inx
+    stx x_index             // Aktualizuj zmienną x_index
     cpx #26                 // 26 liter (A-Z)
     bne !char_loop-
     
@@ -112,4 +127,7 @@ custom_char_data:
 animated_charset:
 // Tutaj umieszczamy dane dla animowanych znaków
 // Dla każdego znaku 8 bajtów pomnożone przez ilość klatek animacji
-.byte $41, $42, $43, $44, $45  // Przykładowe wypełnienie - kilka liter alfabetu 
+.byte $41, $42, $43, $44, $45  // Przykładowe wypełnienie - kilka liter alfabetu
+
+// Zmienne pomocnicze
+x_index: .byte 0  // Zmienna pomocnicza zamiast x 

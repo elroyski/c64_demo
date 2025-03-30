@@ -204,16 +204,31 @@ update_plasma:
     sta temp_row
     
 plasma_row_loop:
+    // Oblicz offset dla aktualnego wiersza
+    lda temp_row
+    asl                 // Mnożenie przez 2
+    asl                 // Mnożenie przez 4
+    asl                 // Mnożenie przez 8
+    asl                 // Mnożenie przez 16
+    asl                 // Mnożenie przez 32
+    clc
+    adc temp_row        // Dodaj wiersz * 8 = wiersz * 40
+    adc temp_row        // ... 
+    
+    // Teraz w A mamy temp_row * 40
+    tay                 // Przenieś do Y jako offset
+    
     // Każdy wiersz ma swój własny offset koloru
     lda plasma_colors, x
-    sta COLOR_RAM + 3 + 40*[temp_row]
+    sta COLOR_RAM + 3, y   // COLOR_RAM + (3 + 40*temp_row)
     inx
     lda plasma_colors, x
-    sta COLOR_RAM + 4 + 40*[temp_row]
+    sta COLOR_RAM + 4, y   // COLOR_RAM + (4 + 40*temp_row)
     inx
     lda plasma_colors, x
-    sta COLOR_RAM + 5 + 40*[temp_row]
+    sta COLOR_RAM + 5, y   // COLOR_RAM + (5 + 40*temp_row)
     inx
+    
     // Zwiększymy wiersz
     inc temp_row
     lda temp_row
