@@ -1,0 +1,17 @@
+# Pliki skompilowane
+*.prg
+*.d64
+*.o
+*.sym
+*.vs
+
+# Pliki muzyczne SID (wkładane osobno)
+music/*.sid
+
+# Pliki tymczasowe
+buildlog.txt
+*.tmp
+*.bak
+
+# Katalog cache Kick Assemblera
+KickAss.cache 

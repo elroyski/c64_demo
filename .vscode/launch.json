@@ -1,0 +1,13 @@
+{
+	"version": "2.0.0",
+	"configurations": [
+		{
+			"type": "kickassembler",
+			"request": "launch",
+			"name": "Debug kickass blink.asm file",
+			"program": "${workspaceFolder}/blink.asm",
+			"binDirectory": "${workspaceFolder}/home/tomek/Projects/C64/",
+			"preLaunchTask": "Build kickass blink.asm"
+		}
+	]
+}
